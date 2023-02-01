@@ -15,10 +15,11 @@ WHITE_BOX: str = "\U00002B1C"
 GREEN_BOX: str = "\U0001F7E9"
 YELLOW_BOX: str = "\U0001F7E8"
 
-#checking if input is the same length as 
+#checking if input is the same length as secret word
 while(len(user_guess) != len(secret_word)):
     user_guess = input(f"That was not {len(secret_word)} letters! Try again: ")
 
+#checking if input is the same word as the secret word
 while(index_guess < len(secret_word)):
     if(user_guess[index_guess] == secret_word[index_guess]):
         emoji = emoji + GREEN_BOX
@@ -35,6 +36,7 @@ while(index_guess < len(secret_word)):
     count = 0
     index_secret = 0
 
+#show if letters are the same
 print(emoji)
 
 if(user_guess == secret_word):
