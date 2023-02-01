@@ -1,6 +1,6 @@
 """One shot Wordle!"""
 
-__author__: "730565129"
+__author__: str = "730565129"
 
 # naming variables
 secret_word: str = "python"
@@ -23,14 +23,14 @@ while (len(user_guess) != len(secret_word)):
 while (index_guess < len(secret_word)):
     if (user_guess[index_guess] == secret_word[index_guess]):
         emoji = emoji + GREEN_BOX
-    else :
+    else: 
         while (index_secret < len(secret_word)):
             if (user_guess[index_guess] == secret_word[index_secret]):
                 count = count + 1
             index_secret = index_secret + 1
         if (count > 0):
             emoji = emoji + YELLOW_BOX
-        else :
+        else: 
             emoji = emoji + WHITE_BOX
     index_guess = index_guess + 1
     count = 0
@@ -41,5 +41,5 @@ print(emoji)
 
 if (user_guess == secret_word):
     print("Woo! You got it!")
-else :
+else: 
     print("Not quite. Play again soon!")
