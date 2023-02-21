@@ -4,7 +4,7 @@ __author__: str = "730565129"
 
 
 def contains_char(secret: str, letter: str) -> bool:
-    """Checks the letter is in the secret word!"""
+    """Checks if the letter is in the secret word!"""
     assert len(letter) == 1
     # makes sure letter is only 1 char
 
@@ -18,6 +18,38 @@ def contains_char(secret: str, letter: str) -> bool:
     return False
 
 
+def mult_s(secret: str, letter: str) -> int:
+    """Checks how many of each letter is in the secret word!"""
+    assert len(letter) == 1
+    # makes sure letter is only 1 char
+
+    i: int = 0
+    c: int = 0
+
+    while i < len(secret):
+        # checks each idx of secret for the letter
+        if letter == secret[i]:
+            c = c + 1
+        i = i + 1
+    return c
+
+
+def mult_g(guess: str, letter: str) -> int:
+    """Checks how many of each letter is in the guess!"""
+    assert len(letter) == 1
+    # makes sure letter is only 1 char
+
+    i: int = 0
+    c: int = 0
+
+    while i < len(guess):
+        # checks each idx of secret for the letter
+        if letter == guess[i]:
+            c = c + 1
+        i = i + 1
+    return c
+
+
 def emojified(guess: str, secret: str) -> str:
     """Produces an emoji Wordle!"""
     assert len(secret) == len(guess)
@@ -29,14 +61,19 @@ def emojified(guess: str, secret: str) -> str:
 
     i: int = 0
     emojis: str = ""
-
+    
+    
     while i < len(secret):
+        c: int = mult_s(secret,guess[i])
+        g: int = mult_g(guess,guess[i])
+        
         if secret[i] == guess[i]:
             emojis = emojis + GREEN_BOX
-        elif contains_char(secret, guess[i]):
-            emojis = emojis + YELLOW_BOX
-        elif not contains_char(secret, guess[i]):
+        elif (not contains_char(secret, guess[i])) or (g > c):
             emojis = emojis + WHITE_BOX
+        elif (contains_char(secret, guess[i])):
+            emojis = emojis + YELLOW_BOX
+        
         i = i + 1
     
     return emojis
