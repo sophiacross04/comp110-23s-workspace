@@ -2,7 +2,8 @@
 
 __author__: str = "730565129"
 
-def all(list: list[int], int: int) -> bool:
+
+def all(list: list[int], inty: int) -> bool:
     """Checks to see if all of the values of the list are the same as the int."""
     # establishing variables
     x: bool = False
@@ -10,10 +11,11 @@ def all(list: list[int], int: int) -> bool:
 
     # checks each index of the list
     while i < (len(list) - 1):
-        if int == list[i]:
+        if inty == list[i]:
             x = True
         else:
             x = False
+            return x
         i += 1
     return x
 
@@ -25,15 +27,15 @@ def max(list: list[int]) -> int:
         raise ValueError("max() arg is an empty List")
     
     # defining variables
-    i: int = 1
-    max: int
+    i: int = 0
+    max: int = list[0]
 
     # checks each index of the list and updates when there is a larger number
-    while i-1 < (len(list) - 1):
-        if list[i-1] > list[i]:
-            max = list[i-1]
-        else:  # list[i] > list[i-1]
-            max = list[i]
+    while i < (len(list) - 1):
+        if max > list[i + 1]:
+            max = max
+        else:  # list[i + 1] > max
+            max = list[i + 1]
         i += 1
     return max
 
