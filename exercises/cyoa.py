@@ -9,7 +9,6 @@ points: int = 0
 player: str = ""
 choice: int = 0
 doom: int = 1
-monster: int = 0
 
 # named constants (emojis)
 EMOJI_QUEST: str = "\U0001F914"
@@ -36,17 +35,9 @@ def main() -> None:
         print(f"{player}, you currently have a {points} point bonus!")
         options()
         if choice == 1:
-            questions() 
+            points = questions(points) 
         if choice == 2:
-            points = battle(points)
-            if points > monster:
-                print(f"{3 * EMOJI_WIN} VICTORY! {3 * EMOJI_WIN}\nGood work {player}, you slayed the monster!\nAs a reward, you have recieved 5 points!")
-                points += 5
-                doom *= 2
-            else:
-                print(f"{3 * EMOJI_LOSE} You lost! {3 * EMOJI_LOSE}\nThe monster is still on the loose, make sure you're ready before you battle again!\nBecause you lost, you lost all your points!")
-                points = 0
-                doom = 1
+            battle()
         if choice == 3:
             bye()
 
@@ -70,10 +61,9 @@ def options() -> None:
     print(f"You chose Option {choice}! Great choice!")
 
 
-# one custom procedure
-def questions() -> None:
+# one custom function
+def questions(right: int) -> int:
     """Answer math questions to earn point bonuses!"""
-    global points
     num1: int = 0
     num2: int = 0
     answer: int = 0
@@ -88,7 +78,7 @@ def questions() -> None:
             answer = int(input(f"What is the square root of {num1 ** 2}? "))
             if answer == num1:
                 print(f"{EMOJI_CHECK} Correct! You earned a bonus point!")
-                points += 1
+                right += 1
             else:
                 print(f"{EMOJI_X} Wrong! Better luck next time!")
         elif type % 3 == 0:
@@ -97,7 +87,7 @@ def questions() -> None:
             answer = int(input(f"What is {num1} ** {num2}? "))
             if answer == (num1 ** num2):
                 print(f"{EMOJI_CHECK} Correct! You earned a bonus point!")
-                points += 1
+                right += 1
             else:
                 print(f"{EMOJI_X} Wrong! Better luck next time!")
         else:
@@ -106,43 +96,52 @@ def questions() -> None:
             answer = int(input(f"Given the equation {num1}x = {num2 * num1}, what is x? "))
             if answer == num2:
                 print(f"{EMOJI_CHECK} Correct! You earned a bonus point!")
-                points += 1
+                right += 1
             else:
                 print(f"{EMOJI_X} Wrong! Better luck next time!")
         i += 1
     print(f"Good job {player}, you made it through all the challenge questions!")
+    return right
 
 
-# one custom function
-def battle(num: int) -> int:
+# one custom procedure
+def battle() -> None:
     """Battle!"""
-    global monster
     print(f"{3*EMOJI_SWORD} BATTLE {3*EMOJI_SWORD}")
+    global points
+    h_monster: int = 100
+    h_player: int = 100
+    global doom
     i: int = 0
-    p_health: int = 100
-    m_health: int = 100
     secret: int = 0
-    user: int = 0
     while i < 3:
         print(f"{3*EMOJI_LIGHT} ROUND {i + 1} {3*EMOJI_LIGHT}")
-        if m_health < 0:
-            m_health == 0
-        if p_health < 0:
-            p_health == 0
-        print(f"Points: {num}")
-        print(f"Health points:\n- {player}: {p_health}\n- Monster: {m_health}")
+        if h_monster < 0:
+            h_monster == 0
+        if h_player < 0:
+            h_player == 0
+        print(f"Points: {points}")
+        print(f"Health:\n- {player}: {h_player}\n- Monster: {h_monster}")
         secret = randint(1, 3)
         user = int(input("Pick a number 1 - 3! "))
         if user == secret:
-            print(f"Good job {player}, you picked the magic number!\nYou did {num * secret} damage to the monster!\nYou earned another point!")
-            m_health -= (num * user)
-            num += 1
+            print(f"Good job {player}, you picked the magic number!\nYou did {points + secret} damage to the monster!\nYou earned another point!")
+            h_monster -= (points + secret)
+            points += 1
         else:
             print(f"Oh no, the monster won this round!\nThe monster did {secret * doom} damage to you!\nYou lost 2 points!")
-            p_health -= (secret * doom)
-            num -= 2
+            h_player -= (secret * doom)
+            if points > 0:
+                points -= 2
         i += 1
-    return num
+    if h_player > h_monster:
+        print(f"{3 * EMOJI_WIN} VICTORY! {3 * EMOJI_WIN}\nGood work {player}, you slayed the monster!\nAs a reward, you have recieved 2 points!")
+        points += 2
+        doom *= 2
+    else:
+        print(f"{3 * EMOJI_LOSE} You lost! {3 * EMOJI_LOSE}\nThe monster is still on the loose, make sure you're ready before you battle again!\nBecause you lost, you lost all your points!")
+        points = 0
+        doom = 1
 
 
 # another custom procedure
